@@ -58,15 +58,15 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
-## Support
+## TypeORM Migrations
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+We are using [TypeORM](https://typeorm.io/) as our Relational DB manager.
 
-## Stay in touch
+When entities are updated, we need to create the migrations that will update the table. We do this by running `npm run migrations:generate --name={NAME_OF_MIGRATION}` where {NAME_OF_MIGRATION} is what you want to call the migration. Please make it descriptive
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+After we generate the migration, we MUST add that migration to the <i>data-source.ts</i> in the migrations field
+
+To run the migration, we just need to run `npm run migrations:run`
 
 ## License
 
