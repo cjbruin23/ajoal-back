@@ -10,6 +10,7 @@ import {
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { Users } from './entities/user.entity';
 
 @Controller('users')
 export class UsersController {
@@ -21,7 +22,7 @@ export class UsersController {
   }
 
   @Get()
-  findAll(): string {
+  findAll(): Promise<Users[]> {
     return this.usersService.findAll();
   }
 
