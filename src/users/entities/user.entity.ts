@@ -10,4 +10,7 @@ export class Users {
 
   @Column({ type: 'varchar', length: 255 })
   fullname: string;
+
+  @Column({ type: 'text' })
+  name: string;
 }
