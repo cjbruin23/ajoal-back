@@ -13,20 +13,20 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT;
 
-app.get("/", async (req: Request, res: Response) => {
-  // const users = await myDataSource.getRepository(User).find();
-  // console.log("users", users);
+app.get("/", async (_, res: Response) => {
+  res.send("Express + TypeScript Server");
+});
+
+app.get("/user", async (req: Request, res: Response) => {
   const users = await myDataSource
     .getRepository(User)
     .createQueryBuilder("users")
     .getMany();
-  console.log("users", users);
   res.send("Express + TypeScript Server");
 });
 
 app.post("/user", async (req: Request, res: Response) => {
   const user = new User();
-  user.name = "kent";
   try {
     await myDataSource.manager.save(user);
   } catch (err) {

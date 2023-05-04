@@ -23,19 +23,18 @@ app_data_source_1.default
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const port = process.env.PORT;
-app.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    // const users = await myDataSource.getRepository(User).find();
-    // console.log("users", users);
+app.get("/", (_, res) => __awaiter(void 0, void 0, void 0, function* () {
+    res.send("Express + TypeScript Server");
+}));
+app.get("/user", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const users = yield app_data_source_1.default
         .getRepository(user_entity_1.User)
         .createQueryBuilder("users")
         .getMany();
-    console.log("users", users);
     res.send("Express + TypeScript Server");
 }));
 app.post("/user", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const user = new user_entity_1.User();
-    user.name = "kent";
     try {
         yield app_data_source_1.default.manager.save(user);
     }
