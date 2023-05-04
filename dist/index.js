@@ -24,8 +24,20 @@ dotenv_1.default.config();
 const app = (0, express_1.default)();
 const port = process.env.PORT;
 app.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(req);
     const users = yield app_data_source_1.default.getRepository(user_entity_1.User).find();
+    console.log("users", users);
+    res.send("Express + TypeScript Server");
+}));
+app.post("/user", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const user = new user_entity_1.User();
+    user.name = "colin";
+    try {
+        yield app_data_source_1.default.manager.save(user);
+    }
+    catch (err) {
+        console.log("err", err);
+    }
+    console.log(user.id);
     res.send("Express + TypeScript Server");
 }));
 app.listen(port, () => {

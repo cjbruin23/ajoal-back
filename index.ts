@@ -14,8 +14,20 @@ const app = express();
 const port = process.env.PORT;
 
 app.get("/", async (req: Request, res: Response) => {
-  console.log(req);
   const users = await myDataSource.getRepository(User).find();
+  console.log("users", users);
+  res.send("Express + TypeScript Server");
+});
+
+app.post("/user", async (req: Request, res: Response) => {
+  const user = new User();
+  user.name = "colin";
+  try {
+    await myDataSource.manager.save(user);
+  } catch (err) {
+    console.log("err", err);
+  }
+  console.log(user.id);
   res.send("Express + TypeScript Server");
 });
 
