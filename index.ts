@@ -1,7 +1,9 @@
 import express, { Request, Response } from "express";
+import { User } from "./src/entity/user.entity";
 import dotenv from "dotenv";
 import myDataSource from "./app-data-source";
-import { User } from "./src/entity/user.entity";
+
+const cors = require("cors");
 
 myDataSource
   .initialize()
@@ -13,22 +15,29 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT;
 
+app.use(
+  cors({
+    origin: ["http://127.0.0.1:5173"],
+  })
+);
+
 app.get("/", async (_, res: Response) => {
   res.send("Express + TypeScript Server");
 });
 
-app.get("/user", async (req: Request, res: Response) => {
+app.get("/users", async (_, res: Response) => {
   const users = await myDataSource
     .getRepository(User)
     .createQueryBuilder("users")
     .getMany();
-  res.send("Express + TypeScript Server");
+  res.send(users);
 });
 
 app.post("/user", async (req: Request, res: Response) => {
   const user = new User();
   try {
-    await myDataSource.manager.save(user);
+    console.log("req", req);
+    // await myDataSource.manager.save(user);
   } catch (err) {
     console.log("err", err);
   }

@@ -13,9 +13,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const user_entity_1 = require("./src/entity/user.entity");
 const dotenv_1 = __importDefault(require("dotenv"));
 const app_data_source_1 = __importDefault(require("./app-data-source"));
-const user_entity_1 = require("./src/entity/user.entity");
+const cors = require("cors");
 app_data_source_1.default
     .initialize()
     .then(() => console.log("data source has been intitialized"))
@@ -23,20 +24,24 @@ app_data_source_1.default
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const port = process.env.PORT;
+app.use(cors({
+    origin: ["http://127.0.0.1:5173"],
+}));
 app.get("/", (_, res) => __awaiter(void 0, void 0, void 0, function* () {
     res.send("Express + TypeScript Server");
 }));
-app.get("/user", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+app.get("/users", (_, res) => __awaiter(void 0, void 0, void 0, function* () {
     const users = yield app_data_source_1.default
         .getRepository(user_entity_1.User)
         .createQueryBuilder("users")
         .getMany();
-    res.send("Express + TypeScript Server");
+    res.send(users);
 }));
 app.post("/user", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const user = new user_entity_1.User();
     try {
-        yield app_data_source_1.default.manager.save(user);
+        console.log("req", req);
+        // await myDataSource.manager.save(user);
     }
     catch (err) {
         console.log("err", err);
