@@ -1,9 +1,10 @@
 import express, { Request, Response } from "express";
-import { User } from "./src/entity/user.entity";
+import { User } from "./src/database/entity/user.entity";
 import dotenv from "dotenv";
 import myDataSource from "./app-data-source";
 
 const cors = require("cors");
+const bodyParser = require("body-parser");
 
 myDataSource
   .initialize()
@@ -15,11 +16,14 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT;
 
+// MIDDLEWARE
 app.use(
   cors({
     origin: ["http://127.0.0.1:5173"],
   })
 );
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 app.get("/", async (_, res: Response) => {
   res.send("Express + TypeScript Server");
@@ -36,12 +40,11 @@ app.get("/users", async (_, res: Response) => {
 app.post("/user", async (req: Request, res: Response) => {
   const user = new User();
   try {
-    console.log("req", req);
+    console.log("req body", req.body);
     // await myDataSource.manager.save(user);
   } catch (err) {
     console.log("err", err);
   }
-  console.log(user.id);
   res.send("Express + TypeScript Server");
 });
 

@@ -6,5 +6,8 @@ export class User {
   id!: number;
 
   @Column()
+  auth0id!: string;
+
+  @Column()
   name!: string;
 }

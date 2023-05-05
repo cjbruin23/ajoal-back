@@ -3,8 +3,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-console.log("TESTING", process.env.DB_HOST);
-
+// We do not want synchronize true for Production
 const myDataSource = new DataSource({
   type: "postgres",
   host: process.env.DB_HOST,
@@ -12,7 +11,8 @@ const myDataSource = new DataSource({
   database: "postgres",
   username: "postgres",
   password: process.env.DB_PASSWORD,
-  entities: ["dist/src/entity/*.js"],
+  entities: [__dirname + "dist/src/database/entity/*.js"],
+  migrations: [__dirname + "src/database/migrations"],
   logging: true,
   synchronize: true,
 });

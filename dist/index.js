@@ -13,10 +13,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const user_entity_1 = require("./src/entity/user.entity");
+const user_entity_1 = require("./src/database/entity/user.entity");
 const dotenv_1 = __importDefault(require("dotenv"));
 const app_data_source_1 = __importDefault(require("./app-data-source"));
 const cors = require("cors");
+const bodyParser = require("body-parser");
 app_data_source_1.default
     .initialize()
     .then(() => console.log("data source has been intitialized"))
@@ -24,9 +25,12 @@ app_data_source_1.default
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const port = process.env.PORT;
+// MIDDLEWARE
 app.use(cors({
     origin: ["http://127.0.0.1:5173"],
 }));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 app.get("/", (_, res) => __awaiter(void 0, void 0, void 0, function* () {
     res.send("Express + TypeScript Server");
 }));
@@ -40,13 +44,12 @@ app.get("/users", (_, res) => __awaiter(void 0, void 0, void 0, function* () {
 app.post("/user", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const user = new user_entity_1.User();
     try {
-        console.log("req", req);
+        console.log("req body", req.body);
         // await myDataSource.manager.save(user);
     }
     catch (err) {
         console.log("err", err);
     }
-    console.log(user.id);
     res.send("Express + TypeScript Server");
 }));
 app.listen(port, () => {
