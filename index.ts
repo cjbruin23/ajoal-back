@@ -2,6 +2,8 @@ import express, { Request, Response } from "express";
 import { User } from "./src/database/entity/user.entity";
 import dotenv from "dotenv";
 import myDataSource from "./app-data-source";
+import UserService from "./src/database/repositories/users.service";
+import UserPayload from "./src/models/User.model";
 
 const cors = require("cors");
 const bodyParser = require("body-parser");
@@ -38,14 +40,24 @@ app.get("/users", async (_, res: Response) => {
 });
 
 app.post("/user", async (req: Request, res: Response) => {
-  const user = new User();
+  const userService = new UserService(myDataSource);
+
   try {
-    console.log("req body", req.body);
-    // await myDataSource.manager.save(user);
+    const reqBody = req.body as UserPayload;
+    const trimAuthId = reqBody.authId.split("|")[1];
+    console.log("trimAuthId", trimAuthId);
+    const user = await userService.getUserByAuthId(trimAuthId);
+    console.log("user", user);
+    if (!user) {
+      const saveResult = await userService.saveUser(reqBody);
+      console.log("saveResult", saveResult);
+    } else {
+      res.send("User already exists in DB");
+    }
   } catch (err) {
     console.log("err", err);
+    res.status(500).send(err);
   }
-  res.send("Express + TypeScript Server");
 });
 
 app.listen(port, () => {

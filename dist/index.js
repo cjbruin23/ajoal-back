@@ -16,6 +16,7 @@ const express_1 = __importDefault(require("express"));
 const user_entity_1 = require("./src/database/entity/user.entity");
 const dotenv_1 = __importDefault(require("dotenv"));
 const app_data_source_1 = __importDefault(require("./app-data-source"));
+const users_service_1 = __importDefault(require("./src/database/repositories/users.service"));
 const cors = require("cors");
 const bodyParser = require("body-parser");
 app_data_source_1.default
@@ -42,15 +43,25 @@ app.get("/users", (_, res) => __awaiter(void 0, void 0, void 0, function* () {
     res.send(users);
 }));
 app.post("/user", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const user = new user_entity_1.User();
+    const userService = new users_service_1.default(app_data_source_1.default);
     try {
-        console.log("req body", req.body);
-        // await myDataSource.manager.save(user);
+        const reqBody = req.body;
+        const trimAuthId = reqBody.authId.split("|")[1];
+        console.log("trimAuthId", trimAuthId);
+        const user = yield userService.getUserByAuthId(trimAuthId);
+        console.log("user", user);
+        if (!user) {
+            const saveResult = yield userService.saveUser(reqBody);
+            console.log("saveResult", saveResult);
+        }
+        else {
+            res.send("User already exists in DB");
+        }
     }
     catch (err) {
         console.log("err", err);
+        res.status(500).send(err);
     }
-    res.send("Express + TypeScript Server");
 }));
 app.listen(port, () => {
     console.log(`[server]: Server is running at http://localhost:${port}`);
