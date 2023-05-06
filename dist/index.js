@@ -13,9 +13,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const user_entity_1 = require("./src/database/entity/user.entity");
 const dotenv_1 = __importDefault(require("dotenv"));
 const app_data_source_1 = __importDefault(require("./app-data-source"));
-const user_entity_1 = require("./src/entity/user.entity");
+const users_service_1 = __importDefault(require("./src/database/repositories/users.service"));
+const cors = require("cors");
+const bodyParser = require("body-parser");
 app_data_source_1.default
     .initialize()
     .then(() => console.log("data source has been intitialized"))
@@ -23,26 +26,42 @@ app_data_source_1.default
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const port = process.env.PORT;
+// MIDDLEWARE
+app.use(cors({
+    origin: ["http://127.0.0.1:5173"],
+}));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 app.get("/", (_, res) => __awaiter(void 0, void 0, void 0, function* () {
     res.send("Express + TypeScript Server");
 }));
-app.get("/user", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+app.get("/users", (_, res) => __awaiter(void 0, void 0, void 0, function* () {
     const users = yield app_data_source_1.default
         .getRepository(user_entity_1.User)
         .createQueryBuilder("users")
         .getMany();
-    res.send("Express + TypeScript Server");
+    res.send(users);
 }));
 app.post("/user", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const user = new user_entity_1.User();
+    const userService = new users_service_1.default(app_data_source_1.default);
     try {
-        yield app_data_source_1.default.manager.save(user);
+        let reqBody = req.body;
+        const trimAuthId = reqBody.authId.split("|")[1];
+        reqBody = Object.assign(Object.assign({}, reqBody), { authId: trimAuthId });
+        console.log("trimAuthId", trimAuthId);
+        const user = yield userService.getUserByAuthId(trimAuthId);
+        console.log("user", user);
+        if (!user) {
+            yield userService.saveUser(reqBody);
+            res.send("User added to DB");
+        }
+        else {
+            console.log("not needed to be added");
+        }
     }
     catch (err) {
         console.log("err", err);
     }
-    console.log(user.id);
-    res.send("Express + TypeScript Server");
 }));
 app.listen(port, () => {
     console.log(`[server]: Server is running at http://localhost:${port}`);

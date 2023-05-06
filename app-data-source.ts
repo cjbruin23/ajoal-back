@@ -3,8 +3,6 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-console.log("TESTING", process.env.DB_HOST);
-
 const myDataSource = new DataSource({
   type: "postgres",
   host: process.env.DB_HOST,
@@ -12,9 +10,9 @@ const myDataSource = new DataSource({
   database: "postgres",
   username: "postgres",
   password: process.env.DB_PASSWORD,
-  entities: ["dist/src/entity/*.js"],
+  entities: ["dist/src/database/entity/*.js"],
+  migrations: ["dist/src/database/migrations/*.js"],
   logging: true,
-  synchronize: true,
 });
 
 export default myDataSource;
