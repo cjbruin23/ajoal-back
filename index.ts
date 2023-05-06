@@ -43,20 +43,20 @@ app.post("/user", async (req: Request, res: Response) => {
   const userService = new UserService(myDataSource);
 
   try {
-    const reqBody = req.body as UserPayload;
+    let reqBody = req.body as UserPayload;
     const trimAuthId = reqBody.authId.split("|")[1];
+    reqBody = { ...reqBody, authId: trimAuthId };
     console.log("trimAuthId", trimAuthId);
     const user = await userService.getUserByAuthId(trimAuthId);
     console.log("user", user);
     if (!user) {
-      const saveResult = await userService.saveUser(reqBody);
-      console.log("saveResult", saveResult);
+      await userService.saveUser(reqBody);
+      res.send("User added to DB");
     } else {
-      res.send("User already exists in DB");
+      console.log("not needed to be added");
     }
   } catch (err) {
     console.log("err", err);
-    res.status(500).send(err);
   }
 });
 

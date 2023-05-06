@@ -45,22 +45,22 @@ app.get("/users", (_, res) => __awaiter(void 0, void 0, void 0, function* () {
 app.post("/user", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const userService = new users_service_1.default(app_data_source_1.default);
     try {
-        const reqBody = req.body;
+        let reqBody = req.body;
         const trimAuthId = reqBody.authId.split("|")[1];
+        reqBody = Object.assign(Object.assign({}, reqBody), { authId: trimAuthId });
         console.log("trimAuthId", trimAuthId);
         const user = yield userService.getUserByAuthId(trimAuthId);
         console.log("user", user);
         if (!user) {
-            const saveResult = yield userService.saveUser(reqBody);
-            console.log("saveResult", saveResult);
+            yield userService.saveUser(reqBody);
+            res.send("User added to DB");
         }
         else {
-            res.send("User already exists in DB");
+            console.log("not needed to be added");
         }
     }
     catch (err) {
         console.log("err", err);
-        res.status(500).send(err);
     }
 }));
 app.listen(port, () => {

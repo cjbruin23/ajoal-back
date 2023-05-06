@@ -12,13 +12,13 @@ class UserService {
     const user = await this.dataSource
       .getRepository(User)
       .findOneBy({ auth0id: id });
+    console.log("user", user);
     return user;
   }
 
   async saveUser(user: UserPayload) {
     const mappedUser = { auth0id: user.authId, name: user.nickname };
     const result = await this.dataSource.getRepository(User).save(mappedUser);
-    console.log("result", result);
     return result.id;
   }
 }
