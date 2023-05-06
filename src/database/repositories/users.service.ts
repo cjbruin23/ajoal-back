@@ -12,7 +12,6 @@ class UserService {
     const user = await this.dataSource
       .getRepository(User)
       .findOneBy({ auth0id: id });
-    console.log("user", user);
     return user;
   }
 

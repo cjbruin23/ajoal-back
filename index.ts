@@ -46,14 +46,10 @@ app.post("/user", async (req: Request, res: Response) => {
     let reqBody = req.body as UserPayload;
     const trimAuthId = reqBody.authId.split("|")[1];
     reqBody = { ...reqBody, authId: trimAuthId };
-    console.log("trimAuthId", trimAuthId);
     const user = await userService.getUserByAuthId(trimAuthId);
-    console.log("user", user);
     if (!user) {
       await userService.saveUser(reqBody);
       res.send("User added to DB");
-    } else {
-      console.log("not needed to be added");
     }
   } catch (err) {
     console.log("err", err);
