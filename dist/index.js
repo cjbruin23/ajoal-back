@@ -17,6 +17,7 @@ const user_entity_1 = require("./src/database/entity/user.entity");
 const dotenv_1 = __importDefault(require("dotenv"));
 const app_data_source_1 = __importDefault(require("./app-data-source"));
 const users_service_1 = __importDefault(require("./src/database/repositories/users.service"));
+const questions_1 = __importDefault(require("./src/routes/questions"));
 const cors = require("cors");
 const bodyParser = require("body-parser");
 app_data_source_1.default
@@ -32,6 +33,7 @@ app.use(cors({
 }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use("/question", questions_1.default);
 app.get("/", (_, res) => __awaiter(void 0, void 0, void 0, function* () {
     res.send("Express + TypeScript Server");
 }));

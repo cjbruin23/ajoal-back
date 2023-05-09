@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import myDataSource from "./app-data-source";
 import UserService from "./src/database/repositories/users.service";
 import UserPayload from "./src/models/User.model";
+import QuestionsRoute from "./src/routes/questions";
 
 const cors = require("cors");
 const bodyParser = require("body-parser");
@@ -26,6 +27,7 @@ app.use(
 );
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use("/question", QuestionsRoute);
 
 app.get("/", async (_, res: Response) => {
   res.send("Express + TypeScript Server");
