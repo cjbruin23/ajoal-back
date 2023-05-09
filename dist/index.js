@@ -48,15 +48,10 @@ app.post("/user", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         let reqBody = req.body;
         const trimAuthId = reqBody.authId.split("|")[1];
         reqBody = Object.assign(Object.assign({}, reqBody), { authId: trimAuthId });
-        console.log("trimAuthId", trimAuthId);
         const user = yield userService.getUserByAuthId(trimAuthId);
-        console.log("user", user);
         if (!user) {
             yield userService.saveUser(reqBody);
             res.send("User added to DB");
-        }
-        else {
-            console.log("not needed to be added");
         }
     }
     catch (err) {
