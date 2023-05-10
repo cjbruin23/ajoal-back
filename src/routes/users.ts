@@ -3,16 +3,9 @@ import myDataSource from "../../app-data-source";
 import UserService from "../database/repositories/users.service";
 import UserPayload from "../models/User.model";
 import { User } from "../database/entity/user.entity";
+import QuestionsRouter from "./questions";
 
-const router = express.Router();
-
-router.get("/users", async (_, res: Response) => {
-  const users = await myDataSource
-    .getRepository(User)
-    .createQueryBuilder("users")
-    .getMany();
-  res.send(users);
-});
+const router = express.Router({ mergeParams: true });
 
 router.post("/", async (req: Request, res: Response) => {
   const userService = new UserService(myDataSource);
@@ -30,5 +23,7 @@ router.post("/", async (req: Request, res: Response) => {
     console.log("err", err);
   }
 });
+
+router.use("/:userId/questions", QuestionsRouter);
 
 export default router;

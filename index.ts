@@ -27,8 +27,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // ROUTES
-app.use("/question", QuestionsRoute);
-app.use("/user", UserRoute);
+app.use("/users", UserRoute);
+app.use("users/:userid/questions", QuestionsRoute);
 
 app.get("/", async (_, res: Response) => {
   res.send("Express + TypeScript Server");

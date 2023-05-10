@@ -33,8 +33,8 @@ app.use((0, cors_1.default)({
 app.use(body_parser_1.default.json());
 app.use(body_parser_1.default.urlencoded({ extended: false }));
 // ROUTES
-app.use("/question", questions_1.default);
-app.use("/user", users_1.default);
+app.use("/users", users_1.default);
+app.use("users/:userid/questions", questions_1.default);
 app.get("/", (_, res) => __awaiter(void 0, void 0, void 0, function* () {
     res.send("Express + TypeScript Server");
 }));
