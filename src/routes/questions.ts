@@ -2,6 +2,11 @@ import express, { Request, Response } from "express";
 
 const router = express.Router({ mergeParams: true });
 
+router.get("/", (req: Request, res: Response) => {
+  console.log("get all", req.params);
+  res.send("GET Questions");
+});
+
 router.get("/:id", (req: Request, res: Response) => {
   console.log("request params", req.params);
   res.send("GET Questions");

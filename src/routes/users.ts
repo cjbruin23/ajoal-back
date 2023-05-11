@@ -2,7 +2,6 @@ import express, { Request, Response } from "express";
 import myDataSource from "../../app-data-source";
 import UserService from "../database/repositories/users.service";
 import UserPayload from "../models/User.model";
-import { User } from "../database/entity/user.entity";
 import QuestionsRouter from "./questions";
 
 const router = express.Router({ mergeParams: true });
