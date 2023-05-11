@@ -6,6 +6,15 @@ import QuestionsRouter from "./questions";
 
 const router = express.Router({ mergeParams: true });
 
+router.get("/:id", async (req: Request, res: Response) => {
+  const userService = new UserService(myDataSource);
+  const userId = req.params.id;
+  console.log("userId", userId);
+  const user = await userService.getUserById(userId);
+  console.log("user", user);
+  res.send(user);
+});
+
 router.post("/", async (req: Request, res: Response) => {
   const userService = new UserService(myDataSource);
 

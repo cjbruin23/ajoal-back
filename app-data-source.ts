@@ -3,6 +3,10 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
+// To fix the 'No entities found' error when running .ts files,
+// we can depend on an env variable to decide whether to point
+// the datasource to the dist file or the ts files
+
 const myDataSource = new DataSource({
   type: "postgres",
   host: process.env.DB_HOST,

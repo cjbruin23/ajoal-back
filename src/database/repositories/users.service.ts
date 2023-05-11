@@ -15,6 +15,14 @@ class UserService {
     return user;
   }
 
+  async getUserById(id: string) {
+    const user = await this.dataSource
+      .getRepository(User)
+      .findOneBy({ id: Number(id) });
+
+    return user;
+  }
+
   async saveUser(user: UserPayload) {
     const mappedUser = { auth0id: user.authId, name: user.nickname };
     const result = await this.dataSource.getRepository(User).save(mappedUser);
