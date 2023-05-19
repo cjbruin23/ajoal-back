@@ -6,6 +6,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const typeorm_1 = require("typeorm");
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
+// To fix the 'No entities found' error when running .ts files,
+// we can depend on an env variable to decide whether to point
+// the datasource to the dist file or the ts files
 const myDataSource = new typeorm_1.DataSource({
     type: "postgres",
     host: process.env.DB_HOST,

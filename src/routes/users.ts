@@ -9,9 +9,7 @@ const router = express.Router({ mergeParams: true });
 router.get("/:id", async (req: Request, res: Response) => {
   const userService = new UserService(myDataSource);
   const userId = req.params.id;
-  console.log("userId", userId);
   const user = await userService.getUserById(userId);
-  console.log("user", user);
   res.send(user);
 });
 
@@ -25,8 +23,9 @@ router.post("/", async (req: Request, res: Response) => {
     const user = await userService.getUserByAuthId(trimAuthId);
     if (!user) {
       await userService.saveUser(reqBody);
-      res.send("User added to DB");
+      res.status(201).send("User added to DB");
     }
+    res.send("User already in database");
   } catch (err) {
     console.log("err", err);
   }
