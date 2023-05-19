@@ -1,5 +1,4 @@
 import { DataSource } from "typeorm";
-import Question from "../../models/Post.model";
 
 class QuestionService {
   dataSource: DataSource;
@@ -7,8 +6,8 @@ class QuestionService {
     this.dataSource = dataSource;
   }
 
-  async saveQuestion(question: Question) {
-    console.log("question", question);
+  async saveQuestion(userId: number, questionRequest: any) {
+    console.log("question", questionRequest);
   }
 }
 

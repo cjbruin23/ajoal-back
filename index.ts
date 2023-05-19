@@ -29,10 +29,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use("/users", UserRoute);
 app.use("users/:userid/questions", QuestionsRoute);
 
-app.get("/", async (_, res: Response) => {
-  res.send("Express + TypeScript Server");
-});
-
 app.listen(port, () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);
 });

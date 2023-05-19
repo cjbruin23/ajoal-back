@@ -25,7 +25,7 @@ router.post("/", async (req: Request, res: Response) => {
       await userService.saveUser(reqBody);
       res.status(201).send("User added to DB");
     }
-    res.send("User already in database");
+    res.send({ userId: user?.id });
   } catch (err) {
     console.log("err", err);
   }

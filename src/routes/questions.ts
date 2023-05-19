@@ -2,6 +2,7 @@ import express, { Request, Response } from "express";
 import QuestionService from "../database/repositories/questions.service";
 import myDataSource from "../../app-data-source";
 import UserService from "../database/repositories/users.service";
+import Question from "../models/Question.model";
 
 const router = express.Router({ mergeParams: true });
 
@@ -12,17 +13,17 @@ router.get("/", (req: Request, res: Response) => {
 
 router.get("/:id", (req: Request, res: Response) => {
   console.log("request params", req.params);
-  res.send("GET Questions");
+  res.send("GET Question");
 });
 
 router.post("/", async (req: Request, res: Response) => {
-  const userService = new UserService(myDataSource);
+  console.log("request", req);
   const questionService = new QuestionService(myDataSource);
   const routeParams = req.params;
   const userId = routeParams.userId;
-
-  const user = await userService.getUserById(userId);
-  console.log("user", user);
+  const body = req.body as Question;
+  console.log("body", body);
+  questionService.saveQuestion(+userId, body);
   res.send();
 });
 
