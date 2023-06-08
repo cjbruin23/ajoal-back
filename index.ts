@@ -5,6 +5,7 @@ import QuestionsRoute from "./src/routes/questions";
 import UserRoute from "./src/routes/users";
 import cors from "cors";
 import bodyParser from "body-parser";
+import errorHandler from "./src/middleware/error.middleware";
 
 myDataSource
   .initialize()
@@ -29,6 +30,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use("/users", UserRoute);
 app.use("users/:userid/questions", QuestionsRoute);
 
+app.use(errorHandler);
 app.listen(port, () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);
 });
