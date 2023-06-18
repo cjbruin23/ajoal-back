@@ -9,3 +9,5 @@ We must build the project first: `npm run build`
 To generate a migration: `npm run typeorm -- -o -d app-data-source.ts migration:generate ./dist/src/database/migrations/${name of the migration}`
 
 To run the migrations: `npm run typeorm migration:run -- -d app-data-source.ts`
+
+## BLOG
