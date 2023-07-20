@@ -31,3 +31,4 @@ app.use(error_middleware_1.default);
 app.listen(port, () => {
     console.log(`[server]: Server is running at http://localhost:${port}`);
 });
+//# sourceMappingURL=index.js.map

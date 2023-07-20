@@ -11,3 +11,7 @@ To generate a migration: `npm run typeorm -- -o -d app-data-source.ts migration:
 To run the migrations: `npm run typeorm migration:run -- -d app-data-source.ts`
 
 ## BLOG
+
+#### July 20 2023
+
+- Wanted to debug the application with VSCode, needed to add sourceMap: true in tsconfig.json
