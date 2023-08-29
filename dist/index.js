@@ -17,7 +17,7 @@ app_data_source_1.default
     .catch((err) => console.log("Error during Data Source initialization", err));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
-const port = process.env.PORT;
+const port = process.env.PORT || 3000;
 // MIDDLEWARE
 app.use((0, cors_1.default)({
     origin: ["http://127.0.0.1:5173"],
