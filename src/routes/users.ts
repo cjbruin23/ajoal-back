@@ -14,7 +14,6 @@ router.get("/:id", async (req: Request, res: Response) => {
       return res.status(404).send(`There is no user by id ${userId}`)
     }
     return res.send(user);
-
 });
 
 router.post("/", async (req: Request, res: Response) => {
