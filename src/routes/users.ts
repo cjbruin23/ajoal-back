@@ -7,10 +7,14 @@ import QuestionsRouter from "./questions";
 const router = express.Router({ mergeParams: true });
 
 router.get("/:id", async (req: Request, res: Response) => {
-  const userService = new UserService(myDataSource);
-  const userId = req.params.id;
-  const user = await userService.getUserById(userId);
-  res.send(user);
+    const userService = new UserService(myDataSource);
+    const userId = req.params.id;
+    const user = await userService.getUserById(userId);
+    if (!user) {
+      return res.status(404).send(`There is no user by id ${userId}`)
+    }
+    return res.send(user);
+
 });
 
 router.post("/", async (req: Request, res: Response) => {

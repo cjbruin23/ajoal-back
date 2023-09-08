@@ -19,7 +19,6 @@ class UserService {
     const user = await this.dataSource
       .getRepository(User)
       .findOneBy({ id: Number(id) });
-
     return user;
   }
 
