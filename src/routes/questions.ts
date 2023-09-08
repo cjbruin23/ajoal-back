@@ -9,8 +9,8 @@ const router = express.Router({ mergeParams: true });
 router.get("/", async (req: Request, res: Response) => {
   console.log("get all", req.params);
   const questionsService = new QuestionService(myDataSource);
-  await questionsService.getAllQuestionsForUser(+req.params.userId)
-  res.send("GET Questions");
+  const questionResults = await questionsService.getAllQuestionsForUser(+req.params.userId)
+  res.status(200).json(questionResults);
 });
 
 router.get("/:id", (req: Request, res: Response) => {
