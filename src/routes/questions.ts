@@ -13,11 +13,6 @@ router.get("/", async (req: Request, res: Response) => {
   res.status(200).json(questionResults);
 });
 
-router.get("/:id", (req: Request, res: Response) => {
-  console.log("request params", req.params);
-  res.send("GET Question");
-});
-
 router.post("/", async (req: Request, res: Response, next: NextFunction) => {
   console.log("request", req);
   try {
