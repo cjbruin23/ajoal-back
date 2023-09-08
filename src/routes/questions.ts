@@ -6,8 +6,10 @@ import UserService from "../database/repositories/users.service";
 
 const router = express.Router({ mergeParams: true });
 
-router.get("/", (req: Request, res: Response) => {
+router.get("/", async (req: Request, res: Response) => {
   console.log("get all", req.params);
+  const questionsService = new QuestionService(myDataSource);
+  await questionsService.getAllQuestionsForUser(+req.params.userId)
   res.send("GET Questions");
 });
 
