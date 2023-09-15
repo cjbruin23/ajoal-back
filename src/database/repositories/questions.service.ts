@@ -10,6 +10,18 @@ class QuestionService {
     this.dataSource = dataSource;
   }
 
+  async getAllQuestionsForUser(userId: number) {
+    const repository = this.dataSource.getRepository(Question);
+    const result = await repository.find({
+      where: {
+        user: {
+          id: userId
+        }
+      }
+    });
+    return result;
+  }
+
   async saveQuestion(
     userId: number,
     questionRequest: QuestionRequest,
