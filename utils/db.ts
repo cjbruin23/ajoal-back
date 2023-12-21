@@ -8,7 +8,6 @@ function createDbFunction() {
 async function authenticateDbConnection(sequelize: Sequelize) {
 
     try {
-    console.log('sequelize', sequelize)
       await sequelize.authenticate();
       console.log("success in connection with DB")
     } catch (error) {
