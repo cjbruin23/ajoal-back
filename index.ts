@@ -1,15 +1,14 @@
 import express, { Express, Request, Response } from "express";
 import dotenv from "dotenv";
-import { Sequelize } from "sequelize";
+import { authenticateDbConnection, createDbFunction } from "./utils/db";
 
 dotenv.config();
 
 const app: Express = express();
 const port = process.env.PORT || 3000;
 
-const sequelize = new Sequelize(`${process.env.POSTGRES_URL}`);
-
-authenticateDbConnection();
+const sequelize = createDbFunction();
+authenticateDbConnection(sequelize);
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Express + TypeScript Server");
@@ -23,12 +22,3 @@ app.listen(port, () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);
 });
 
-async function authenticateDbConnection() {
-
-  try {
-    await sequelize.authenticate();
-    console.log("success in connection with DB")
-  } catch (error) {
-    console.error('Unable to connect to database', error)
-  }
-}
