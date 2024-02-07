@@ -18,6 +18,8 @@ func main() {
 		AllowedHeaders: []string{"Accept", "Authorization", "Content-Type", "X-CSRF-Token"},
 	}))
 
+	// https://developer.auth0.com/resources/code-samples/api/standard-library/basic-authorization
+
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("welcome"))
 	})
