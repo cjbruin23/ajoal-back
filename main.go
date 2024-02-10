@@ -28,7 +28,7 @@ func main() {
 	}))
 
 	// https://developer.auth0.com/resources/code-samples/api/standard-library/basic-authorization
-
+	// https://github.com/auth0-developer-hub/api_standard-library_golang_hello-world/blob/main/cmd/api-server/app.go
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("welcome"))
 	})
