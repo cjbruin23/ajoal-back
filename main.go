@@ -23,5 +23,9 @@ func main() {
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("welcome"))
 	})
+
+	r.Group(func(r chi.Router) {
+		r.Use(middleware.ValidateJWT(audience, domain, http.HandlerFunc(middleware.ProtectedApiHandler)))
+	})
 	http.ListenAndServe(":3000", r)
 }
