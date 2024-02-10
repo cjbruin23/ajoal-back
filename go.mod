@@ -8,6 +8,7 @@ require (
 	github.com/auth0-developer-hub/api_standard-library_golang_hello-world v0.0.0-20240206234209-6840a1970704
 	github.com/auth0/go-jwt-middleware/v2 v2.2.1
 	github.com/go-chi/cors v1.2.1
+	github.com/joho/godotenv v1.5.1
 	github.com/pkg/errors v0.9.1
 	github.com/rs/cors v1.10.1
 	github.com/unrolled/secure v1.14.0

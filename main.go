@@ -2,14 +2,23 @@ package main
 
 import (
 	"net/http"
+	"os"
+
+	authMiddleware "periate-back/main/middleware"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/go-chi/cors"
+	"github.com/joho/godotenv"
 )
 
 func main() {
 	r := chi.NewRouter()
+
+	godotenv.Load()
+
+	audience := os.Getenv("AUTH0_AUDIENCE")
+	domain := os.Getenv("AUTH0_DOMAIN")
 
 	r.Use(middleware.Logger)
 	r.Use(cors.Handler(cors.Options{
@@ -25,7 +34,7 @@ func main() {
 	})
 
 	r.Group(func(r chi.Router) {
-		r.Use(middleware.ValidateJWT(audience, domain, http.HandlerFunc(middleware.ProtectedApiHandler)))
+		r.Use(authMiddleware.ValidateJWT(audience, domain, http.HandlerFunc(middleware.ProtectedApiHandler)))
 	})
 	http.ListenAndServe(":3000", r)
 }

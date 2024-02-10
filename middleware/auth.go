@@ -19,7 +19,13 @@ const (
 	missingJWTErrorMessage       = "Requires authentication"
 	invalidJWTErrorMessage       = "Bad credentials"
 	permissionDeniedErrorMessage = "Permission denied"
+	notFoundErrorMessage         = "Not Found"
+	internalServerErrorMessage   = "Internal Server Error"
 )
+
+type ErrorMessage struct {
+	Message string `json:"message"`
+}
 
 type CustomClaims struct {
 	Permissions []string `json:"permissions"`
@@ -98,4 +104,10 @@ func ValidateJWT(audience, domain string, next http.Handler) http.Handler {
 
 		middleware.CheckJWT(next).ServeHTTP(w, r)
 	})
+}
+
+func ServerError(rw http.ResponseWriter, err error) {
+	errorMessage := ErrorMessage{Message: internalServerErrorMessage}
+	helpers.WriteJSON(rw, http.StatusInternalServerError, errorMessage)
+	log.Print("Internal error server: ", err.Error())
 }
