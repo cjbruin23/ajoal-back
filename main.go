@@ -2,7 +2,7 @@ package main
 
 import (
 	"net/http"
-	"periate-back/main/pkj/routes"
+	"periate-back/main/pkg/routes"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
@@ -28,7 +28,7 @@ func main() {
 		w.Write([]byte("welcome"))
 	})
 
-	r.Mount("users", routes.UsersRoutes())
+	r.Mount("/users", routes.UsersRoutes())
 
 	// Serve
 	http.ListenAndServe(":3000", r)
